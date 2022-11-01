@@ -68,6 +68,7 @@ class Player {
 		this.sprite.addAnimation('player_climb', player_climb_anim);
     this.sprite.addAnimation('player_attack1', player_attack1_anim);
     this.font1 = loadFont("fonts/PressStart2P-Regular.ttf"); 
+    this.coomfont = loadFont("fonts/AmazDoomRight.ttf"); 
   }
 
   ff = 0;
@@ -82,7 +83,7 @@ class Player {
     // text(this.ff, this.pos.x, this.pos.y-50);
 
     this.move();
-     //this.draw_player_ui();
+     this.draw_player_ui();
     // this.health -= 0.1;
 
     for (let map of world_data.maps) {
@@ -238,6 +239,7 @@ class Player {
 
   draw_player_ui() {
     this.draw_player_health()
+    this.draw_coom();
 
   }
 
@@ -252,6 +254,12 @@ class Player {
     rect(this.pos.x-50, this.pos.y-50, this.pos.x + 50*(this.health/100), this.pos.y-35);
     fill(0,0,0,150);
     text('HP', this.pos.x-50, this.pos.y - 34);
+  }
+
+  draw_coom() {
+    textFont(this.coomfont);
+    textSize(100);
+    text('CUM', this.pos.x- 50, this.pos.y - 50);
   }
 }
 
