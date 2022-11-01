@@ -50,63 +50,63 @@ class Polygon {
 
   draw() {
 
-    // for (let edge of this.edges) {
-    //   edge.draw();
-    //   edge.draw_normals();
-    // }
-
-    let v0 = new Vector2(this.verts[0].x-camera.position.x + SCREEN_WIDTH/2, this.verts[0].y-camera.position.y + SCREEN_HEIGHT/2);
-    let v1 = new Vector2(this.verts[1].x-camera.position.x + SCREEN_WIDTH/2, this.verts[1].y-camera.position.y + SCREEN_HEIGHT/2);
-    let v2 = new Vector2(this.verts[2].x-camera.position.x + SCREEN_WIDTH/2, this.verts[2].y-camera.position.y + SCREEN_HEIGHT/2);
-
-    let xmin = Math.floor(MIN(v0.x, MIN(v1.x, v2.x)));
-    let xmax = Math.floor(MAX(v0.x, MAX(v1.x, v2.x)));
-    let ymin = Math.floor(MIN(v0.y, MIN(v1.y, v2.y)));
-    let ymax = Math.floor(MAX(v0.y, MAX(v1.y, v2.y)));
-
-    xmin = MAX(xmin, 0); xmin = MIN(xmin, SCREEN_WIDTH);
-    xmax = MAX(xmax, 0); xmax = MIN(xmax, SCREEN_WIDTH);
-    ymin = MAX(ymin, 0); ymin = MIN(ymin, SCREEN_HEIGHT);
-    ymax = MAX(ymax, 0); ymax = MIN(ymax, SCREEN_HEIGHT);
-
-    let denom = (v1.y-v2.y)*(v0.x-v2.x) + (v2.x-v1.x)*(v0.y-v2.y);
-    let u, v, red, green, blue;
-
-    const A1 = f_xy(xmin+1, ymin,   v1, v2, denom); let A2 = f_xy(xmin, ymin, v1, v2, denom);
-    const B1 = f_xy(xmin,   ymin+1, v1, v2, denom);
-    
-    const D1 = g_xy(xmin+1, ymin,   v0, v2, denom); let D2 = g_xy(xmin, ymin, v0, v2, denom);
-    const E1 = g_xy(xmin,   ymin+1, v0, v2, denom);
-  
-    const f_xstep = A1-A2,  g_xstep = D1-D2,  q_xstep = q_xy(A1, D1) - q_xy(A2, D2);
-    const f_ystep = B1-A2,  g_ystep = E1-D2,  q_ystep = q_xy(B1, E1) - q_xy(A2, D2);
-    
-    let og_q = q_xy(A2, D2);
-  
-    let f, g, q;
-
-    for (let x=xmin; x<=xmax; x++)
-    {
-      f = A2; g = D2; q = og_q;
-      for (let y=ymin; y<=ymax; y++)
-      {
-        if (f >= 0 && g >= 0 && q >= 0)
-        {
-          u = Math.floor(f*this.uvs[0].x + g*this.uvs[1].x + q*this.uvs[2].x) % this.texture.width;
-          v = Math.floor(f*this.uvs[0].y + g*this.uvs[1].y + q*this.uvs[2].y) % this.texture.height;
-
-          red = this.texture.pixels[(4*this.texture.width*v + 4*u+0)];
-          green = this.texture.pixels[(4*this.texture.width*v + 4*u+1)];
-          blue = this.texture.pixels[(4*this.texture.width*v + 4*u+2)];
-
-          pixels[(4*SCREEN_WIDTH*y + 4*x+0)] = red;
-          pixels[(4*SCREEN_WIDTH*y + 4*x+1)] = green;
-          pixels[(4*SCREEN_WIDTH*y + 4*x+2)] = blue;
-        }
-        f += f_ystep; g += g_ystep; q += q_ystep;
-      }
-      A2 += f_xstep; D2 += g_xstep; og_q += q_xstep;
+    for (let edge of this.edges) {
+      edge.draw();
+      edge.draw_normals();
     }
+
+    // let v0 = new Vector2(this.verts[0].x-camera.position.x + SCREEN_WIDTH/2, this.verts[0].y-camera.position.y + SCREEN_HEIGHT/2);
+    // let v1 = new Vector2(this.verts[1].x-camera.position.x + SCREEN_WIDTH/2, this.verts[1].y-camera.position.y + SCREEN_HEIGHT/2);
+    // let v2 = new Vector2(this.verts[2].x-camera.position.x + SCREEN_WIDTH/2, this.verts[2].y-camera.position.y + SCREEN_HEIGHT/2);
+
+    // let xmin = Math.floor(MIN(v0.x, MIN(v1.x, v2.x)));
+    // let xmax = Math.floor(MAX(v0.x, MAX(v1.x, v2.x)));
+    // let ymin = Math.floor(MIN(v0.y, MIN(v1.y, v2.y)));
+    // let ymax = Math.floor(MAX(v0.y, MAX(v1.y, v2.y)));
+
+    // xmin = MAX(xmin, 0); xmin = MIN(xmin, SCREEN_WIDTH);
+    // xmax = MAX(xmax, 0); xmax = MIN(xmax, SCREEN_WIDTH);
+    // ymin = MAX(ymin, 0); ymin = MIN(ymin, SCREEN_HEIGHT);
+    // ymax = MAX(ymax, 0); ymax = MIN(ymax, SCREEN_HEIGHT);
+
+    // let denom = (v1.y-v2.y)*(v0.x-v2.x) + (v2.x-v1.x)*(v0.y-v2.y);
+    // let u, v, red, green, blue;
+
+    // const A1 = f_xy(xmin+1, ymin,   v1, v2, denom); let A2 = f_xy(xmin, ymin, v1, v2, denom);
+    // const B1 = f_xy(xmin,   ymin+1, v1, v2, denom);
+    
+    // const D1 = g_xy(xmin+1, ymin,   v0, v2, denom); let D2 = g_xy(xmin, ymin, v0, v2, denom);
+    // const E1 = g_xy(xmin,   ymin+1, v0, v2, denom);
+  
+    // const f_xstep = A1-A2,  g_xstep = D1-D2,  q_xstep = q_xy(A1, D1) - q_xy(A2, D2);
+    // const f_ystep = B1-A2,  g_ystep = E1-D2,  q_ystep = q_xy(B1, E1) - q_xy(A2, D2);
+    
+    // let og_q = q_xy(A2, D2);
+  
+    // let f, g, q;
+
+    // for (let x=xmin; x<=xmax; x++)
+    // {
+    //   f = A2; g = D2; q = og_q;
+    //   for (let y=ymin; y<=ymax; y++)
+    //   {
+    //     if (f >= 0 && g >= 0 && q >= 0)
+    //     {
+    //       u = Math.floor(f*this.uvs[0].x + g*this.uvs[1].x + q*this.uvs[2].x) % this.texture.width;
+    //       v = Math.floor(f*this.uvs[0].y + g*this.uvs[1].y + q*this.uvs[2].y) % this.texture.height;
+
+    //       red = this.texture.pixels[(4*this.texture.width*v + 4*u+0)];
+    //       green = this.texture.pixels[(4*this.texture.width*v + 4*u+1)];
+    //       blue = this.texture.pixels[(4*this.texture.width*v + 4*u+2)];
+
+    //       pixels[(4*SCREEN_WIDTH*y + 4*x+0)] = red;
+    //       pixels[(4*SCREEN_WIDTH*y + 4*x+1)] = green;
+    //       pixels[(4*SCREEN_WIDTH*y + 4*x+2)] = blue;
+    //     }
+    //     f += f_ystep; g += g_ystep; q += q_ystep;
+    //   }
+    //   A2 += f_xstep; D2 += g_xstep; og_q += q_xstep;
+    // }
   }
 
   scale(alpha) {
@@ -138,9 +138,10 @@ class Polygon {
 
 class Map {
 
-  obj_filepath;
+  filepath;
 
   texture;
+  materials = [];
 
   polygons = [];
   edges = [];
@@ -149,7 +150,7 @@ class Map {
    * @param {string} filepath
    */
   constructor(filepath) { 
-    this.obj_filepath = filepath;
+    this.filepath = filepath;
   }
 
   preload() {
@@ -158,12 +159,31 @@ class Map {
     let normals = [];
     let uvs = [];
 
-    loadImage("engine/level/levels/brick.bmp", (img) => {
-      img.loadPixels();
-      this.texture = img;
+    // loadImage(this.filepath + ".mtl", (img) => {
+    //   img.loadPixels();
+    //   this.texture = img;
+    // });
+
+    // First read mtl file and store as object
+    loadStrings(this.filepath + ".mtl", (file) => {
+      for (let i=0; i<file.length; i++) {
+        
+        let name;
+
+        let tokens = splitTokens(file[i], " ");
+
+        if (tokens[0] == "newmtl") {
+          name = tokens[1];
+        }
+
+        if (tokens[0] == "map_kd") {
+          this.materials.push({name: name, filepath: tokens[1]});
+        }
+
+      }
     });
 
-    loadStrings(this.obj_filepath, (file) => {
+    loadStrings(this.filepath + ".obj", (file) => {
       for (let i=0; i<file.length; i++) {
         
         let tokens = splitTokens(file[i], " ");
@@ -176,6 +196,10 @@ class Map {
           uvs.push(new Vector2(1-tokens[1], 1-tokens[2]));
         }
         
+        if (tokens[0]?.charAt(0) == 'u' && tokens[0].charAt(1) == 's') {
+
+        }
+
         if (tokens[0]?.charAt(0) == 'f' && tokens[0]?.length == 1) {
 
           let poly = new Polygon();
@@ -221,29 +245,22 @@ class Map {
           edge.face_normal.rotate(1.57);
         }
       }
+
     });
   }
 
   setup() {
-
-    for (let polygon of this.polygons) {
-      polygon.texture = this.texture;
-      for (let uv of polygon.uvs) {
-        uv.x *= this.texture.width;
-        uv.y *= this.texture.height;
-      }
-    }
 
     this.scale(25);
     this.translate(-100, SCREEN_HEIGHT/2);
   }
 
   draw() {
-    loadPixels();
+    // loadPixels();
     for (let polygon of this.polygons) {
       polygon.draw();
     }
-    updatePixels();
+    // updatePixels();
   }
 
   scale(alpha) {

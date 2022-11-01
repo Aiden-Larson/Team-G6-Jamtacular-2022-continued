@@ -4,8 +4,6 @@
 
 // Player Variables
 
-let px = 0, py = 0;
-
 // Player Spritesheet
 let player_idle_sprites;
 let player_idle_anim;
