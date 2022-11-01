@@ -13,6 +13,8 @@ let player_run_sprites;
 let player_run_anim;
 let player_climb_sprites;
 let player_climb_anim;
+let player_attack1_sprites;
+let player_attack1_anim;
 
 
 class Player {
@@ -50,6 +52,10 @@ class Player {
     player_climb_sprites = loadSpriteSheet('spritesheets/Standard Player/Player1_climb.png', 48, 48, 6);
     player_climb_anim = loadAnimation(player_climb_sprites);
     player_climb_anim.frameDelay = 9;
+    player_attack1_sprites = loadSpriteSheet('spritesheets/Standard Player/Player1_attack1.png',48, 48, 6);
+    player_attack1_anim = loadAnimation(player_attack1_sprites);
+    player_attack1_anim.frameDelay = 6;
+
   }
 
   setup() {
@@ -60,6 +66,7 @@ class Player {
 		this.sprite.addAnimation('player_idle', player_idle_anim);
 		this.sprite.addAnimation('player_run', player_run_anim);
 		this.sprite.addAnimation('player_climb', player_climb_anim);
+    this.sprite.addAnimation('player_attack1', player_attack1_anim);
     this.font1 = loadFont("fonts/PressStart2P-Regular.ttf"); 
   }
 
@@ -70,7 +77,7 @@ class Player {
   draw(world_data) {
 
     this.move();
-    // this.draw_player_ui();
+     //this.draw_player_ui();
     // this.health -= 0.1;
 
     for (let map of world_data.maps) {
@@ -214,6 +221,10 @@ class Player {
     if (keyIsDown(keycodes.SPACE) && this.grounded) {
       this.grounded =  false;
       this.vel.y = -7;
+    }
+
+    if (keyIsDown(keycodes.CTRL)) {
+      this.sprite.changeAnimation("player_attack1");
     }
 
     camera.position.x = this.pos.x;
