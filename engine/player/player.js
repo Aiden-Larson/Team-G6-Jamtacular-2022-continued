@@ -257,7 +257,7 @@ class Player {
   draw_coom() {
     textFont(this.coomfont);
     textSize(100);
-    text('CUM', this.pos.x- 50, this.pos.y - 50);
+    // text('CUM', this.pos.x- 50, this.pos.y - 50);
   }
 }
 
