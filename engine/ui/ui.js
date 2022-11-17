@@ -254,7 +254,7 @@ class UI {
       textAlign(LEFT, CENTER);
       textSize(64);
       fill(255);
-      text("P: pause", 10, 20);
+      text("P: reeee", 10, 20);
     }
 
   }
